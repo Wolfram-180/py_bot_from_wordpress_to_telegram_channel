@@ -1,6 +1,8 @@
 import requests
 import json
 from bs4 import BeautifulSoup
+import os
+from urllib.parse import urlparse
 
 import secrets
 
@@ -28,20 +30,9 @@ for curr_post in range(last_post - 10, last_post):
         for link in soup.find_all('a'):
             if 'uploads' in link.attrs['href']:
                 dnld_lnk = link.attrs['href']
-                print(link.get('href'))
-            #for src in link.find_all('src'):
-            #    print(src)
-        #print(content)
+                full_fname = urlparse(dnld_lnk)
+                full_fname = (full_fname.path).replace('\\', '')
+                file_name = os.path.basename(full_fname)
+                print(full_fname) 
+                print(file_name)
 
-#data = response.json()
-#print(response)
-#print(data)
-
-#for item in data:
-#    title = item['title']['rendered']
-#    content = item['content']['rendered']
-#    print(title)
-#    print(content)
-
-#content = r.content
-#soup = BeautifulSoup(content, "html.parser")
