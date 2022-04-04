@@ -1,10 +1,25 @@
+from time import sleep
 import requests
 import json
 from bs4 import BeautifulSoup
 import os
 from urllib.parse import urlparse
+from urllib import request
+#from tqdm import tqdm
+import re
 
 import secrets
+
+def get_filename_from_cd(cd):
+    """
+    Get filename from content-disposition
+    """
+    if not cd:
+        return None
+    fname = re.findall('filename=(.+)', cd)
+    if len(fname) == 0:
+        return None
+    return fname[0]
 
 header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}
 
@@ -32,7 +47,38 @@ for curr_post in range(last_post - 10, last_post):
                 dnld_lnk = link.attrs['href']
                 full_fname = urlparse(dnld_lnk)
                 full_fname = (full_fname.path).replace('\\', '')
+                full_fname = (full_fname).replace('"', '')
+                full_fname = (full_fname).replace("'", "")
+                #full_fname = (full_fname).replace("https://", "http://")
+                
                 file_name = os.path.basename(full_fname)
-                print(full_fname) 
-                print(file_name)
+
+                r = requests.get(full_fname, allow_redirects=True)
+                open(file_name, 'wb').write(r.content)
+
+                #print(download_file(full_fname))
+
+                #wget.download(full_fname, file_name)
+
+                #data = requests.get(full_fname)
+                #with open(file_name, 'wb') as file:
+                #    file.write(data.content)
+                #    sleep(5)
+                
+                
+                #request.urlretrieve(full_fname, file_name)
+                
+                #resp_file = requests.get(full_fname, stream=True)
+                #with open(file_name, "wb") as handle:
+                #    for data in tqdm(response.iter_content()):
+                #        handle.write(data)
+                
+                #_file = urllib.request.urlopen(full_fname)
+                #with open(file_name,'wb') as output:
+                #    output.write(_file.read())
+                
+                #print(full_fname) 
+                #print(file_name)
+                #resp_file = requests.get(full_fname, headers=header)
+                #open(file_name, 'wb').write(resp_file.content)
 
