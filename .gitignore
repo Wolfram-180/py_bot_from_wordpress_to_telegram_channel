@@ -8,6 +8,7 @@
 .buildlog/
 .history
 .svn/
+bckp/
 
 # IntelliJ related
 *.iml
