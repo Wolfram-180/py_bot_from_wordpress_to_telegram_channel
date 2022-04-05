@@ -53,7 +53,7 @@ for curr_post in range(last_post - 10, last_post):
                 
                 file_name = os.path.basename(full_fname)
 
-                #r = requests.get(full_fname, allow_redirects=True)
+                r = requests.get(full_fname, allow_redirects=True)
                 open(file_name, 'wb').write(r.content)
 
                 #print(download_file(full_fname))
