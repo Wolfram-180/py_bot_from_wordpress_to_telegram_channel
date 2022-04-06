@@ -9,6 +9,9 @@ import re
 
 import secrets
 
+### POSSIBLE ISSUE : Apache server-side issue: Mod_security may deny the download, in such case - disable mod_security on server side
+
+# def get_filename_from_cd(cd) - not used, but may be useful
 def get_filename_from_cd(cd):
     """
     Get filename from content-disposition
@@ -20,6 +23,7 @@ def get_filename_from_cd(cd):
         return None
     return fname[0]
 
+# start VVV
 header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}
 
 url = 'https://www.' + secrets.site_url +  '/wp-json/wp/v2/posts'
