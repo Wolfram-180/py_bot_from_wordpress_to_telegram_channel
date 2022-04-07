@@ -34,6 +34,11 @@ cmnd_cancel = 'cancel'
 cmnd_list_files_to_load_and_than_send = 'list'
 cmnd_send_files_to_channel = 'send_to_channel'
 
+async def logandmess(str, chatid=0):
+    logging.info(str)
+    if chatid > 0:
+        await bot.send_message(chatid, str) 
+
 
 @dp.message_handler(commands=[cmnd_start])
 async def start(message: types.Message):
@@ -72,11 +77,19 @@ async def list_files(message: types.Message):
 
 @dp.message_handler(commands=[cmnd_send_files_to_channel])
 async def send_files(message: types.Message):
-    #first_file_name = os.listdir(environment_params.load_path)[0]
+    start_file = environment_params.start_file
+
+    await logandmess('Sending started from file: ' + start_file, message.chat.id)
 
     file_list = os.listdir(environment_params.load_path)
 
     for fl in file_list:
+        currfilepos = file_list.index(fl)
+        startfilepos = file_list.index(start_file)
+
+        if currfilepos < startfilepos:
+            continue        
+
         file_name, file_extension = os.path.splitext(fl)
         full_path_to_send = environment_params.load_path+fl
         if file_extension == '.gif':
@@ -93,8 +106,8 @@ async def send_files(message: types.Message):
         else:
             await bot.send_document(chat_id=environment_params.chnl_ID, 
                 document=open(full_path_to_send, 'rb'))
-        logging.info('Sent: ' + full_path_to_send)
-        sleep(1)
+
+        await logandmess('Sent: ' + full_path_to_send, message.chat.id)
 
 
 if __name__ == '__main__':
