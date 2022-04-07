@@ -1,4 +1,5 @@
 import logging
+from tkinter import NO
 from aiogram import executor
 from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -70,7 +71,14 @@ async def list_files(message: types.Message):
 
 @dp.message_handler(commands=[cmnd_send_files_to_channel])
 async def send_files(message: types.Message):
-    await bot.send_message(message.chat.id, 'Implementation in process', parse_mode = 'Markdown')  
+    #file_list = '; '.join(os.listdir(environment_params.load_path))
+    first_file_name = os.listdir(environment_params.load_path)[0]
+    #await bot.send_message(environment_params.chnl_ID, 'Implementation in process:' + first_file_name, parse_mode = 'Markdown')  
+    await bot.send_message(
+        environment_params.chnl_ID,
+        md.text(first_file_name),
+        reply_markup=None,
+    )  
 
 
 if __name__ == '__main__':
