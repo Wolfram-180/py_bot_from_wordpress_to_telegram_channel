@@ -22,7 +22,7 @@ storage = MemoryStorage()
 bot = Bot(token=API_TOKEN, proxy=PROXY_URL, proxy_auth=PROXY_AUTH)
 dp = Dispatcher(bot, storage=storage)
 
-restrict_access = False
+restrict_access = True
 
 if restrict_access:
     dp.middleware.setup(AccessMiddleware(environment_params.admin_TG_ID))
