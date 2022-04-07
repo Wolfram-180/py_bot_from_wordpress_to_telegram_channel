@@ -24,3 +24,4 @@ test_load_0-15/
 
 # Secrets
 environment_params.py
+botlog.log
