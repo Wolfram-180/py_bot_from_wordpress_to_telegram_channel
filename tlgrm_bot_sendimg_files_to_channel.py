@@ -29,15 +29,15 @@ if restrict_access:
 
 cmnd_start = 'start'
 cmnd_cancel = 'cancel'
-cmnd_list_files_to_load = 'list'
+cmnd_list_files_to_load_and_than_send = 'list'
 cmnd_send_files_to_channel = 'send_to_channel'
 
 
 @dp.message_handler(commands=[cmnd_start])
 async def start(message: types.Message):
     markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    markup.row(KeyboardButton(cmnd_list_files_to_load))
-    markup.row(KeyboardButton(cmnd_cancel))
+    markup.row(KeyboardButton('/'+cmnd_start))
+    markup.row(KeyboardButton('/'+cmnd_list_files_to_load_and_than_send))
     await bot.send_message(
         message.chat.id,
         md.text(
@@ -45,8 +45,8 @@ async def start(message: types.Message):
             md.text('Your TG ID: {} \n'.format(message.chat.id)),
             md.text('Commands:'),
             md.text(cmnd_start),
-            md.text(cmnd_list_files_to_load),
-            md.text(cmnd_cancel),
+            md.text(cmnd_list_files_to_load_and_than_send),
+            #md.text(cmnd_cancel),
             sep='\n',
         ),
         reply_markup=markup,
@@ -54,11 +54,11 @@ async def start(message: types.Message):
     )    
 
 
-@dp.message_handler(commands=[cmnd_list_files_to_load])
+@dp.message_handler(commands=[cmnd_list_files_to_load_and_than_send])
 async def list_files(message: types.Message):
     markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    markup.row(KeyboardButton(cmnd_send_files_to_channel))
-    markup.row(KeyboardButton(cmnd_cancel))
+    markup.row(KeyboardButton('/'+cmnd_send_files_to_channel))
+    markup.row(KeyboardButton('/'+cmnd_start))
     file_list = os.listdir(environment_params.load_path)
     await bot.send_message(
         message.chat.id,
@@ -70,7 +70,7 @@ async def list_files(message: types.Message):
 
 @dp.message_handler(commands=[cmnd_send_files_to_channel])
 async def send_files(message: types.Message):
-    bot.send_message(message.chat.id, 'Implementation in process', parse_mode = 'Markdown')  
+    await bot.send_message(message.chat.id, 'Implementation in process', parse_mode = 'Markdown')  
 
 
 if __name__ == '__main__':
