@@ -45,6 +45,7 @@ async def start(message: types.Message):
     markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     markup.row(KeyboardButton('/'+cmnd_start))
     markup.row(KeyboardButton('/'+cmnd_list_files_to_load_and_than_send))
+    markup.row(KeyboardButton('/'+cmnd_send_files_to_channel))
     await bot.send_message(
         message.chat.id,
         md.text(
@@ -53,6 +54,7 @@ async def start(message: types.Message):
             md.text('Commands:'),
             md.text(cmnd_start),
             md.text(cmnd_list_files_to_load_and_than_send),
+            md.text(cmnd_send_files_to_channel),
             #md.text(cmnd_cancel),
             sep='\n',
         ),
