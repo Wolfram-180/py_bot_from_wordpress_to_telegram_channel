@@ -9,6 +9,7 @@
 .history
 .svn/
 bckp/
+test_load_0-15/
 
 # IntelliJ related
 *.iml
