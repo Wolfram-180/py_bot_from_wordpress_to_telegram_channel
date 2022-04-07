@@ -26,6 +26,7 @@ def get_filename_from_cd(cd):
 # start VVV
 header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}
 
+# url like site.com
 url = 'https://www.' + secrets.site_url +  '/wp-json/wp/v2/posts'
 
 response = requests.get(url , headers=header)
