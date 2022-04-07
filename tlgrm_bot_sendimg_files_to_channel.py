@@ -8,11 +8,11 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import ParseMode
 import os
 
-import secrets
+import environment_params
 
 logging.basicConfig(level=logging.INFO)
 
-API_TOKEN = secrets.admin_bot_token
+API_TOKEN = environment_params.admin_bot_token
 
 PROXY_URL = ''
 PROXY_AUTH = ''
@@ -25,7 +25,7 @@ dp = Dispatcher(bot, storage=storage)
 restrict_access = False
 
 if restrict_access:
-    dp.middleware.setup(AccessMiddleware(secrets.admin_TG_ID))
+    dp.middleware.setup(AccessMiddleware(environment_params.admin_TG_ID))
 
 cmnd_start = 'start'
 cmnd_cancel = 'cancel'
@@ -59,7 +59,7 @@ async def list_files(message: types.Message):
     markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     markup.row(KeyboardButton(cmnd_send_files_to_channel))
     markup.row(KeyboardButton(cmnd_cancel))
-    file_list = os.listdir(secrets.load_path)
+    file_list = os.listdir(environment_params.load_path)
     await bot.send_message(
         message.chat.id,
         md.text(file_list),

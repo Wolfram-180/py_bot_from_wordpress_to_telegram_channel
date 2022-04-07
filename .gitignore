@@ -23,4 +23,4 @@ test_load_0-15/
 #.vscode/
 
 # Secrets
-secrets.py
+environment_params.py
