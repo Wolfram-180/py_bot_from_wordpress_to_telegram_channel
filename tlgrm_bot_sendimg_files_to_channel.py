@@ -109,6 +109,8 @@ async def send_files(message: types.Message):
 
         await logandmess('Sent: ' + full_path_to_send, message.chat.id)
 
+        sleep(10)
+
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
