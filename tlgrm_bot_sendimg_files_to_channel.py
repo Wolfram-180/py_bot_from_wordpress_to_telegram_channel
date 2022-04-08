@@ -69,13 +69,15 @@ async def list_files(message: types.Message):
     markup.row(KeyboardButton('/'+cmnd_send_files_to_channel))
     markup.row(KeyboardButton('/'+cmnd_start))
     file_list = os.listdir(environment_params.load_path)
-    await bot.send_message(
-        message.chat.id,
-        md.text(file_list),
-        reply_markup=markup,
-        parse_mode=ParseMode.MARKDOWN,
-    )   
-
+    try:
+        await bot.send_message(
+            message.chat.id,
+            md.text(file_list),
+            reply_markup=markup,
+            parse_mode=ParseMode.MARKDOWN,
+        )   
+    except:
+        await logandmess(cmnd_list_files_to_load_and_than_send + ' command failed: list is too long for message', message.chat.id)
 
 @dp.message_handler(commands=[cmnd_send_files_to_channel])
 async def send_files(message: types.Message):
@@ -112,8 +114,10 @@ async def send_files(message: types.Message):
 
             await logandmess('Sent: ' + full_path_to_send, message.chat.id)
 
-            for sknd in range(1, 120):
-                await bot.send_message(message.chat.id, sknd) 
+            ps = 120
+            for sknd in range(1, ps):
+                if ((sknd == 1) or (sknd == 30) or (sknd == 60) or (sknd == 100)):
+                    await bot.send_message(message.chat.id, str(sknd) + ' of ' + str(ps)) 
                 sleep(1)
         except:
             await logandmess('ALARM: Error happened!')
