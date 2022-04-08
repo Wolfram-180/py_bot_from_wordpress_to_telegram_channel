@@ -1,0 +1,1 @@
+python tlgrm_bot_sendimg_files_to_channel.py

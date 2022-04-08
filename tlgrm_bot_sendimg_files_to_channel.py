@@ -114,13 +114,13 @@ async def send_files(message: types.Message):
 
             await logandmess('Sent: ' + full_path_to_send, message.chat.id)
 
-            ps = 120
-            for sknd in range(1, ps):
-                if ((sknd == 1) or (sknd == 30) or (sknd == 60) or (sknd == 100)):
+            ps = 240
+            for sknd in range(1, ps): 
+                if (sknd % 60 == 0):
                     await bot.send_message(message.chat.id, str(sknd) + ' of ' + str(ps)) 
                 sleep(1)
-        except:
-            await logandmess('ALARM: Error happened!')
+        except Exception as err:
+            await logandmess('ALARM: Error happened! ' + str(err))
 
 
 if __name__ == '__main__':
