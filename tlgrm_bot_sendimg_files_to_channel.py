@@ -114,7 +114,7 @@ async def send_files(message: types.Message):
 
             await logandmess('Sent: ' + full_path_to_send, message.chat.id)
 
-            ps = 300
+            ps = 600
             for sknd in range(1, ps): 
                 if (sknd % 60 == 0):
                     await bot.send_message(message.chat.id, str(sknd) + ' of ' + str(ps)) 
