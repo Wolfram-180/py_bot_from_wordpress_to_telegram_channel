@@ -116,7 +116,7 @@ async def send_files(message: types.Message):
 
             ps = 900
             for sknd in range(1, ps): 
-                if (sknd % 60 == 0):
+                if (sknd % 450 == 0):
                     await bot.send_message(message.chat.id, str(sknd) + ' of ' + str(ps)) 
                 sleep(1)
         except Exception as err:
