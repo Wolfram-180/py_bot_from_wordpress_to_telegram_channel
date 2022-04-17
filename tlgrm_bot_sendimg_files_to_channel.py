@@ -97,26 +97,36 @@ async def send_files(message: types.Message):
         try:
             file_name, file_extension = os.path.splitext(fl)
             full_path_to_send = environment_params.load_path+fl
+            obj_caption = environment_params.send_obj_caption
+             
+            # gif
             if file_extension == '.gif':
                 await bot.send_animation(chat_id=environment_params.chnl_ID, 
-                    animation=open(full_path_to_send, 'rb'))
+                    animation=open(full_path_to_send, 'rb'),
+                    parse_mode=ParseMode.HTML, caption=obj_caption)
+            # mp4, webm
             elif ((file_extension == '.mp4') or (file_extension == '.webm')):
                 await bot.send_video(chat_id=environment_params.chnl_ID, 
-                    video=open(full_path_to_send, 'rb'))
+                    video=open(full_path_to_send, 'rb'),
+                    parse_mode=ParseMode.HTML, caption=obj_caption)
+            # jpg, jpeg, png
             elif ((file_extension == '.jpg') 
                 or (file_extension == '.jpeg')
                 or (file_extension == '.png')):
                 await bot.send_photo(chat_id=environment_params.chnl_ID, 
-                    photo=open(full_path_to_send, 'rb'))                
+                    photo=open(full_path_to_send, 'rb'),
+                    parse_mode=ParseMode.HTML, caption=obj_caption)                
+            # others
             else:
                 await bot.send_document(chat_id=environment_params.chnl_ID, 
-                    document=open(full_path_to_send, 'rb'))
+                    document=open(full_path_to_send, 'rb'),
+                    parse_mode=ParseMode.HTML, caption=obj_caption)
 
             await logandmess('Sent: ' + full_path_to_send, message.chat.id)
 
-            ps = 900
+            ps = 600
             for sknd in range(1, ps): 
-                if (sknd % 450 == 0):
+                if (sknd % 300 == 0):
                     await bot.send_message(message.chat.id, str(sknd) + ' of ' + str(ps)) 
                 sleep(1)
         except Exception as err:
