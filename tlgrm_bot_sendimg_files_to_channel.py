@@ -9,6 +9,7 @@ import aiogram.utils.markdown as md
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import ParseMode
 import os
+import random
 
 import environment_params
 
@@ -124,11 +125,19 @@ async def send_files(message: types.Message):
 
             await logandmess('Sent: ' + full_path_to_send, message.chat.id)
 
-            ps = 600
+            bingo = random.randint(1, 100)
+            if bingo == 1:
+                bingo = random.randint(0, 2)
+                longmess = ''
+                longmess = environment_params.eng_txt[bingo] + ' \n\n ' + environment_params.ru_txt[bingo]
+                await bot.send_message(environment_params.chnl_ID, longmess)             
+
+            ps = 1200
             for sknd in range(1, ps): 
-                if (sknd % 300 == 0):
+                if (sknd % 600 == 0):
                     await bot.send_message(message.chat.id, str(sknd) + ' of ' + str(ps)) 
                 sleep(1)
+
         except Exception as err:
             await logandmess('ALARM: Error happened! ' + str(err))
 
