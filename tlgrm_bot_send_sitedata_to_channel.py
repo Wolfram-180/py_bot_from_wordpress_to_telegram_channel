@@ -13,9 +13,9 @@ import random
 
 import environment_params
 
-logging.basicConfig(filename='botlog_imgtochann.log', encoding='utf-8', level=logging.INFO)
+logging.basicConfig(filename='botlog.log', encoding='utf-8', level=logging.INFO)
 
-API_TOKEN = environment_params.getter_bot_token
+API_TOKEN = environment_params.admin_bot_token
 
 PROXY_URL = ''
 PROXY_AUTH = ''
@@ -32,6 +32,7 @@ if restrict_access:
 
 cmnd_start = 'start'
 cmnd_cancel = 'cancel'
+cmnd_list_files_to_load_and_than_send = 'list'
 cmnd_send_files_to_channel = 'send_to_channel'
 
 async def logandmess(str, chatid=0):
@@ -44,6 +45,7 @@ async def logandmess(str, chatid=0):
 async def start(message: types.Message):
     markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     markup.row(KeyboardButton('/'+cmnd_start))
+    markup.row(KeyboardButton('/'+cmnd_list_files_to_load_and_than_send))
     markup.row(KeyboardButton('/'+cmnd_send_files_to_channel))
     await bot.send_message(
         message.chat.id,
@@ -52,6 +54,7 @@ async def start(message: types.Message):
             md.text('Your TG ID: {} \n'.format(message.chat.id)),
             md.text('Commands:'),
             md.text(cmnd_start),
+            md.text(cmnd_list_files_to_load_and_than_send),
             md.text(cmnd_send_files_to_channel),
             #md.text(cmnd_cancel),
             sep='\n',
@@ -60,6 +63,22 @@ async def start(message: types.Message):
         parse_mode=ParseMode.MARKDOWN,
     )    
 
+
+@dp.message_handler(commands=[cmnd_list_files_to_load_and_than_send])
+async def list_files(message: types.Message):
+    markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    markup.row(KeyboardButton('/'+cmnd_send_files_to_channel))
+    markup.row(KeyboardButton('/'+cmnd_start))
+    file_list = os.listdir(environment_params.load_path)
+    try:
+        await bot.send_message(
+            message.chat.id,
+            md.text(file_list),
+            reply_markup=markup,
+            parse_mode=ParseMode.MARKDOWN,
+        )   
+    except:
+        await logandmess(cmnd_list_files_to_load_and_than_send + ' command failed: list is too long for message', message.chat.id)
 
 @dp.message_handler(commands=[cmnd_send_files_to_channel])
 async def send_files(message: types.Message):
