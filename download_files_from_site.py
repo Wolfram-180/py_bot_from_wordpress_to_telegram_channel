@@ -9,6 +9,12 @@ import re
 
 import environment_params
 
+'''
+
+Purpose of that script: download data from WordPress posts to local folder
+
+'''
+
 ### POSSIBLE ISSUE : Apache server-side issue: Mod_security may deny the download, in such case - disable mod_security on server side
 
 # def get_filename_from_cd(cd) - not used, but may be useful
